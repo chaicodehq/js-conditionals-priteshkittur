@@ -33,5 +33,40 @@
  * @returns {number} Parking fee or -1 for invalid input
  */
 export function calculateParkingFee(hours, vehicleType) {
-  // Your code here
+  if (hours <= 0) {
+    return -1;
+  }
+  if (vehicleType !== "car" && vehicleType !== "motorcycle" && vehicleType !== "bus") {
+    return -1;
+  }
+  let firsthourrate = 0;
+  let additionalHourlyRate = 0;
+  let dailymaximum = 0;
+  switch (vehicleType) {
+    case "car":
+      firsthourrate = 5;
+      additionalHourlyRate = 3;
+      dailymaximum = 30;
+      break;
+    case "motorcycle":
+      firsthourrate = 3;
+      additionalHourlyRate = 2;
+      dailymaximum = 18;
+      break;
+    case "bus":
+      firsthourrate = 10;
+      additionalHourlyRate = 7;
+      dailymaximum = 60;
+      break;
+    default:
+      return -1;
+  }
+  const roundedHours = Math.ceil(hours);
+  if (roundedHours === 1) {
+    return firsthourrate;
+  }
+  else {
+    const totalFee = firsthourrate + (roundedHours -1) * additionalHourlyRate;
+    return Math.min(totalFee, dailymaximum);
+  }
 }
